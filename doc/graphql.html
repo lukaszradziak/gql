@@ -14,35 +14,43 @@
 
 <div class="reveal">
     <div class="slides">
-        <!-- Slajd 1: Tytuł -->
         <section>
             <h1>GraphQL</h1>
+            <p>Knowledge sharing</p>
         </section>
 
-        <!-- Slajd 2: Czym jest GraphQL? -->
         <section>
             <h2>Czym jest GraphQL?</h2>
             <ul>
-                <li>Język zapytań do API stworzony przez Facebook</li>
-                <li>Alternatywa lub uzupełnienie dla REST</li>
-                <li>Umożliwia klientom precyzyjnie pobierać dane, jakich potrzebują</li>
+                <li>Język zapytań do API</li>
+                <li>Alternatywa dla REST</li>
+                <li>Umożliwia klientom precyzyjnie pobierać dane</li>
             </ul>
         </section>
 
-        <!-- Slajd 3: Główne zalety GraphQL -->
         <section>
             <h2>Główne zalety</h2>
             <ul>
                 <li>Mniej "overfetchingu" i "underfetchingu"</li>
                 <li>Jeden endpoint dla wielu rodzajów zapytań</li>
-                <li>Silna typizacja schematu</li>
+                <li>Silne typowanie schematu</li>
                 <li>Uproszczenie komunikacji klient-serwer</li>
             </ul>
         </section>
 
-        <!-- Slajd 4: Podstawowa składnia zapytań -->
+        <section>
+            <h2>Porównanie z REST</h2>
+            <ul>
+                <li>Brak konieczności tworzenia wielu endpointów</li>
+                <li>Precyzyjne pobieranie danych (redukcja liczby zapytań API)</li>
+                <li>Może być trudniejsze w konfiguracji początkowej</li>
+                <li>Prostsza budowa dokumentacji</li>
+            </ul>
+        </section>
+
         <section>
             <h2>Podstawowa składnia zapytań</h2>
+            <pre><code>POST http://localhost:8000/graphql</code></pre>
             <pre><code>
 query {
   user(id: "1") {
@@ -55,7 +63,42 @@ query {
             <p>Tylko te pola, które chcesz otrzymać.</p>
         </section>
 
-        <!-- Slajd 5: Mutacje -->
+        <section>
+            <h2>Pobieranie relacji</h2>
+            <pre><code>
+query {
+  users {
+    id
+    name
+    addresses {
+      type
+      street
+      zip_code
+      city
+    }
+  }
+}
+      </code></pre>
+        </section>
+
+        <section>
+            <h2>Pobieranie wielu zbiorów danych</h2>
+            <pre><code>
+query {
+  users {
+    id
+    name
+  }
+  addresses {
+    id
+    street
+    zip_code
+    city
+  }
+}
+      </code></pre>
+        </section>
+
         <section>
             <h2>Mutacje</h2>
             <p>Służą do modyfikacji danych, np. tworzenia, edycji, usuwania.</p>
@@ -69,17 +112,25 @@ mutation {
       </code></pre>
         </section>
 
-        <!-- Slajd 6: Subskrypcje -->
         <section>
             <h2>Subskrypcje</h2>
             <ul>
-                <li>Pozwalają na komunikację w czasie rzeczywistym (np. WebSocket)</li>
-                <li>Doskonałe do aplikacji typu chat, live updates</li>
-                <li>Struktura zapytań podobna do query, ale używamy słowa kluczowego <code>subscription</code></li>
+                <li><code>subscription</code></li>
+                <li>komunikacja w czasie rzeczywistym (np. WebSocket)</li>
+                <li>do aplikacji typu chat, live updates</li>
             </ul>
         </section>
 
-        <!-- Slajd 7: Schemat w GraphQL -->
+        <section>
+            <h2>Architektura serwera GraphQL</h2>
+            <ul>
+                <li>GraphQL Server</li>
+                <li>Data Source</li>
+                <li>Schema – definiuje możliwe zapytania i typy</li>
+                <li>Resolver – odpowiedzialny za pobieranie danych</li>
+            </ul>
+        </section>
+
         <section>
             <h2>Schemat w GraphQL</h2>
             <p>Serce każdego serwera GraphQL to schemat definiujący typy i zależności:</p>
@@ -96,17 +147,15 @@ type Query {
       </code></pre>
         </section>
 
-        <!-- Slajd 8: Typy i skalary -->
         <section>
-            <h2>Typy i skalary</h2>
+            <h2>Typowanie</h2>
             <ul>
-                <li>Podstawowe skalary: <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Boolean</code>, <code>ID</code></li>
+                <li>Podstawowe: <code>Int</code>, <code>Float</code>, <code>String</code>, <code>Boolean</code>, <code>ID</code></li>
                 <li>Własne typy obiektów (Custom Types)</li>
-                <li>Możliwość definiowania interfejsów i unii</li>
+                <li>Możliwość definiowania interfejsów i typów (union)</li>
             </ul>
         </section>
 
-        <!-- Slajd 9: Zmienne w zapytaniach (Variables) -->
         <section>
             <h2>Zmienne w zapytaniach</h2>
             <pre><code>
@@ -120,126 +169,131 @@ query GetUser($userId: ID!) {
             <p>Pozwalają dynamicznie przekazywać argumenty przy wywołaniu query.</p>
         </section>
 
-        <!-- Slajd 10: Porównanie z REST -->
         <section>
-            <h2>Porównanie z REST</h2>
+            <h2>Zabezpieczenia i ograniczanie zapytań</h2>
             <ul>
-                <li>Brak konieczności tworzenia wielu endpointów</li>
-                <li>Precyzyjne pobieranie danych (redukcja liczby zapytań)</li>
-                <li>Może być trudniejsze w konfiguracji początkowej</li>
+                <li>Limitowanie głębokości zapytania (query depth limiting)</li>
+                <li>Analiza złożoności zapytania (query complexity)</li>
+                <li>Autoryzacja i autentykacja w resolverach</li>
+                <li>Wykrywanie i blokowanie złośliwych zapytań (np. DDoS)</li>
             </ul>
         </section>
 
-        <!-- Slajd 11: Apollo Server (Node.js) -->
-        <section>
-            <h2>Apollo Server (Node.js)</h2>
-            <ul>
-                <li>Popularna implementacja serwera GraphQL w ekosystemie JavaScript</li>
-                <li>Integracja z Express, Koa i innymi frameworkami</li>
-                <li>Łatwe definiowanie schematów i resolverów</li>
-            </ul>
-        </section>
-
-        <!-- Slajd 12: GraphiQL / Playground -->
-        <section>
-            <h2>GraphiQL / GraphQL Playground</h2>
-            <ul>
-                <li>Interaktywne środowiska do testowania zapytań GraphQL</li>
-                <li>Podpowiedzi składni i autouzupełnianie</li>
-                <li>Bardzo przydatne w fazie rozwoju API</li>
-            </ul>
-        </section>
-
-        <!-- Slajd 13: Implementacje w różnych językach -->
         <section>
             <h2>Implementacje w różnych językach</h2>
             <ul>
+                <li>PHP/Symfony - OverblogGraphQLBundle</li>
                 <li>JavaScript/TypeScript – Apollo, GraphQL.js</li>
                 <li>Python – Graphene</li>
-                <li>Ruby – graphql-ruby</li>
-                <li>Java – GraphQL Java</li>
-                <li>Go – gqlgen</li>
             </ul>
         </section>
 
-        <!-- Slajd 14: Najlepsze praktyki -->
         <section>
-            <h2>Najlepsze praktyki</h2>
+            <h2>N+1</h2>
             <ul>
-                <li>Dobrze przemyślany schemat (przejrzysty, zrozumiały)</li>
-                <li>Paginacja (Relay, offset-based, cursor-based)</li>
-                <li>Caching i batching zapytań (dataloader)</li>
-                <li>Mechanizmy autoryzacji i kontroli dostępu</li>
+                <a target="_blank" href="https://github.com/overblog/GraphQLBundle/blob/master/docs/definitions/solving-n-plus-1-problem.md">
+                    overblog/dataloader-bundle
+                </a>
             </ul>
         </section>
 
-        <!-- Slajd 15: Wydajność i bezpieczeństwo -->
+
         <section>
-            <h2>Wydajność i bezpieczeństwo</h2>
-            <ul>
-                <li>Limity głębokości zapytań (depth limiting)</li>
-                <li>Persisted Queries (unikanie zbyt długich zapytań w URL)</li>
-                <li>Kontrola autoryzacji na poziomie resolverów</li>
-            </ul>
+            <h2>DEMO</h2>
         </section>
 
-        <!-- Slajd 16: Federation & Gateway -->
-        <section>
-            <h2>Federation & Gateway</h2>
-            <ul>
-                <li>Łączenie wielu mikroserwisów w jeden federowany schemat</li>
-                <li>Apollo Federation jako popularne rozwiązanie</li>
-                <li>Ułatwia rozwijanie większych projektów</li>
-            </ul>
-        </section>
 
-        <!-- Slajd 17: GraphQL na produkcji -->
-        <section>
-            <h2>GraphQL na produkcji</h2>
-            <ul>
-                <li>Monitoring zapytań (np. Apollo Studio, GraphQL Hive)</li>
-                <li>Optymalizacja resolverów</li>
-                <li>Stosowanie CDN i cachingu tam, gdzie to możliwe</li>
-            </ul>
-        </section>
+<!--        <section>-->
+<!--            <h2>Apollo Server (Node.js)</h2>-->
+<!--            <ul>-->
+<!--                <li>Popularna implementacja serwera GraphQL w ekosystemie JavaScript</li>-->
+<!--                <li>Integracja z Express, Koa i innymi frameworkami</li>-->
+<!--                <li>Łatwe definiowanie schematów i resolverów</li>-->
+<!--            </ul>-->
+<!--        </section>-->
 
-        <!-- Slajd 18: Narzędzia klienckie -->
-        <section>
-            <h2>Narzędzia klienckie</h2>
-            <ul>
-                <li>Apollo Client (React, Vue, Angular)</li>
-                <li>Relay (Facebook)</li>
-                <li>Urql (lekka alternatywa dla Apollo Client)</li>
-                <li>Inne biblioteki do różnych frameworków</li>
-            </ul>
-        </section>
+<!--        <section>-->
+<!--            <h2>GraphiQL / GraphQL Playground</h2>-->
+<!--            <ul>-->
+<!--                <li>Interaktywne środowiska do testowania zapytań GraphQL</li>-->
+<!--                <li>Podpowiedzi składni i autouzupełnianie</li>-->
+<!--                <li>Bardzo przydatne w fazie rozwoju API</li>-->
+<!--            </ul>-->
+<!--        </section>-->
 
-        <!-- Slajd 19: Przykładowe scenariusze użycia -->
-        <section>
-            <h2>Przykładowe scenariusze użycia</h2>
-            <ul>
-                <li>Aplikacje mobilne i webowe (jeden endpoint, różne potrzeby danych)</li>
-                <li>Microservices – GraphQL Gateway</li>
-                <li>Integracja z IoT i systemami real-time</li>
-            </ul>
-        </section>
 
-        <!-- Slajd 20: Podsumowanie -->
-        <section>
-            <h2>Podsumowanie i materiały</h2>
-            <ul>
-                <li>GraphQL rozwiązuje wiele problemów REST</li>
-                <li>Wymaga planowania i dobrego projektu schematu</li>
-                <li>Warte uwagi źródła:
-                    <ul>
-                        <li><a href="https://graphql.org/learn/">Oficjalna dokumentacja GraphQL</a></li>
-                        <li><a href="https://www.apollographql.com/docs/">Dokumentacja Apollo</a></li>
-                        <li><a href="https://www.howtographql.com/">How To GraphQL</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <p>Dziękuję za uwagę!</p>
-        </section>
+
+<!--        <section>-->
+<!--            <h2>Najlepsze praktyki</h2>-->
+<!--            <ul>-->
+<!--                <li>Dobrze przemyślany schemat (przejrzysty, zrozumiały)</li>-->
+<!--                <li>Paginacja (Relay, offset-based, cursor-based)</li>-->
+<!--                <li>Caching i batching zapytań (dataloader)</li>-->
+<!--                <li>Mechanizmy autoryzacji i kontroli dostępu</li>-->
+<!--            </ul>-->
+<!--        </section>-->
+
+<!--        <section>-->
+<!--            <h2>Wydajność i bezpieczeństwo</h2>-->
+<!--            <ul>-->
+<!--                <li>Limity głębokości zapytań (depth limiting)</li>-->
+<!--                <li>Persisted Queries (unikanie zbyt długich zapytań w URL)</li>-->
+<!--                <li>Kontrola autoryzacji na poziomie resolverów</li>-->
+<!--            </ul>-->
+<!--        </section>-->
+
+<!--        <section>-->
+<!--            <h2>Federation & Gateway</h2>-->
+<!--            <ul>-->
+<!--                <li>Łączenie wielu mikroserwisów w jeden federowany schemat</li>-->
+<!--                <li>Apollo Federation jako popularne rozwiązanie</li>-->
+<!--                <li>Ułatwia rozwijanie większych projektów</li>-->
+<!--            </ul>-->
+<!--        </section>-->
+
+<!--        <section>-->
+<!--            <h2>GraphQL na produkcji</h2>-->
+<!--            <ul>-->
+<!--                <li>Monitoring zapytań (np. Apollo Studio, GraphQL Hive)</li>-->
+<!--                <li>Optymalizacja resolverów</li>-->
+<!--                <li>Stosowanie CDN i cachingu tam, gdzie to możliwe</li>-->
+<!--            </ul>-->
+<!--        </section>-->
+
+<!--        <section>-->
+<!--            <h2>Narzędzia klienckie</h2>-->
+<!--            <ul>-->
+<!--                <li>Apollo Client (React, Vue, Angular)</li>-->
+<!--                <li>Relay (Facebook)</li>-->
+<!--                <li>Urql (lekka alternatywa dla Apollo Client)</li>-->
+<!--                <li>Inne biblioteki do różnych frameworków</li>-->
+<!--            </ul>-->
+<!--        </section>-->
+
+<!--        <section>-->
+<!--            <h2>Przykładowe scenariusze użycia</h2>-->
+<!--            <ul>-->
+<!--                <li>Aplikacje mobilne i webowe (jeden endpoint, różne potrzeby danych)</li>-->
+<!--                <li>Microservices – GraphQL Gateway</li>-->
+<!--                <li>Integracja z IoT i systemami real-time</li>-->
+<!--            </ul>-->
+<!--        </section>-->
+
+<!--        <section>-->
+<!--            <h2>Podsumowanie i materiały</h2>-->
+<!--            <ul>-->
+<!--                <li>GraphQL rozwiązuje wiele problemów REST</li>-->
+<!--                <li>Wymaga planowania i dobrego projektu schematu</li>-->
+<!--                <li>Warte uwagi źródła:-->
+<!--                    <ul>-->
+<!--                        <li><a href="https://graphql.org/learn/">Oficjalna dokumentacja GraphQL</a></li>-->
+<!--                        <li><a href="https://www.apollographql.com/docs/">Dokumentacja Apollo</a></li>-->
+<!--                        <li><a href="https://www.howtographql.com/">How To GraphQL</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--            <p>Dziękuję za uwagę!</p>-->
+<!--        </section>-->
 
     </div>
 </div>
