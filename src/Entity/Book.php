@@ -6,8 +6,8 @@ use App\Repository\BookRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-class Book {
-
+class Book
+{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -43,8 +43,8 @@ class Book {
         int    $averageRating,
         int    $copiesSold,
         string $genre
-    ) {
-
+    )
+    {
         $this->title = $title;
         $this->author = $author;
         $this->synopsis = $synopsis;
@@ -54,99 +54,84 @@ class Book {
         $this->genre = $genre;
     }
 
-    public function getId()
-    : ?int {
+    public function getId(): ?int
+    {
 
         return $this->id;
     }
 
-    public function getTitle()
-    : ?string {
-
+    public function getTitle(): ?string
+    {
         return $this->title;
     }
 
-    public function setTitle(string $title)
-    : void {
-
+    public function setTitle(string $title): void
+    {
         $this->title = $title;
     }
 
-    public function getAuthor()
-    : ?Author {
-
+    public function getAuthor(): ?Author
+    {
         return $this->author;
     }
 
-    public function setAuthor(?Author $author)
-    : void {
-
+    public function setAuthor(?Author $author): void
+    {
         $this->author = $author;
     }
 
-    public function getSynopsis()
-    : ?string {
-
+    public function getSynopsis(): ?string
+    {
         return $this->synopsis;
     }
 
-    public function setSynopsis(string $synopsis)
-    : void {
-
+    public function setSynopsis(string $synopsis): void
+    {
         $this->synopsis = $synopsis;
     }
 
-    public function getReleaseYear()
-    : ?string {
-
+    public function getReleaseYear(): ?string
+    {
         return $this->releaseYear;
     }
 
-    public function setReleaseYear(string $releaseYear)
-    : void {
-
+    public function setReleaseYear(string $releaseYear): void
+    {
         $this->releaseYear = $releaseYear;
     }
 
-    public function getAverageRating()
-    : ?int {
-
+    public function getAverageRating(): ?int
+    {
         return $this->averageRating;
     }
 
-    public function setAverageRating(int $averageRating)
-    : void {
-
+    public function setAverageRating(int $averageRating): void
+    {
         $this->averageRating = $averageRating;
     }
 
-    public function getCopiesSold()
-    : ?int {
-
+    public function getCopiesSold(): ?int
+    {
         return $this->copiesSold;
     }
 
-    public function setCopiesSold(int $copiesSold)
-    : void {
-
+    public function setCopiesSold(int $copiesSold): void
+    {
         $this->copiesSold = $copiesSold;
-
     }
 
-    public function getGenre()
-    : string {
-
+    public function getGenre(): string
+    {
         return $this->genre;
     }
 
-    public function setGenre(string $genre)
-    : void {
-
+    public function setGenre(string $genre): void
+    {
         $this->genre = $genre;
     }
 
-    public function __set(string $property, mixed $value)
-    : void {
+    public function __set(string $property, mixed $value): void
+    {
         if (property_exists($this, $property)) {
             $this->$property = $value;
         }
