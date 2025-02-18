@@ -35,7 +35,7 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
 
         return new Book(
             $this->faker->sentence(),
-            $this->getReference(AuthorFixtures::REFERENCE, Author::class),
+            $this->getReference(AuthorFixtures::REFERENCE.random_int(1, 9), Author::class),
             $this->faker->sentences(5, true),
             $this->faker->year(),
             $this->faker->numberBetween(1, 10),
