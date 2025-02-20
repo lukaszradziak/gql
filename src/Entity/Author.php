@@ -26,8 +26,8 @@ class Author
     private string $bio;
 
     #[ORM\OneToMany(
-        mappedBy: 'author',
         targetEntity: Book::class,
+        mappedBy: 'author',
         orphanRemoval: true
     )]
     private Collection $books;

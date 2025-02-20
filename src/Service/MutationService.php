@@ -10,7 +10,6 @@ use GraphQL\Error\Error;
 
 class MutationService
 {
-
     public function __construct(
         private EntityManagerInterface $manager
     )
